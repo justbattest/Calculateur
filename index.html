@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnostic Cabinet Dentaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070B15;--card:rgba(255,255,255,0.035);--card-solid:#0F1525;
+  --border:rgba(255,255,255,0.07);--border-hi:rgba(255,255,255,0.12);
+  --text:#EEF0F8;--t2:#8B92A8;--t3:#4A5170;
+  --blue:#4F8EF7;--blue-d:rgba(79,142,247,0.12);--blue-g:rgba(79,142,247,0.2);
+  --purple:#9B6FEB;--purple-d:rgba(155,111,235,0.12);
+  --red:#FF4455;--red-d:rgba(255,68,85,0.12);
+  --green:#00D68F;--green-d:rgba(0,214,143,0.10);
+  --orange:#FF9500;--orange-d:rgba(255,149,0,0.12);
+  --g1:linear-gradient(135deg,#4F8EF7 0%,#9B6FEB 100%);
+  --g2:linear-gradient(135deg,#FF4455 0%,#FF6E7A 100%);
+  --g3:linear-gradient(135deg,#00D68F 0%,#00B7A8 100%);
+  --r:18px;--rs:12px;--rx:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* AMBIENT */
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);animation:drift 18s ease-in-out infinite alternate}
+.o1{width:600px;height:600px;background:radial-gradient(circle,rgba(79,142,247,0.18),transparent 70%);top:-200px;left:-200px;animation-duration:20s}
+.o2{width:500px;height:500px;background:radial-gradient(circle,rgba(155,111,235,0.15),transparent 70%);top:30%;right:-180px;animation-duration:25s;animation-delay:-8s}
+.o3{width:400px;height:400px;background:radial-gradient(circle,rgba(255,68,85,0.08),transparent 70%);bottom:10%;left:20%;animation-duration:22s;animation-delay:-14s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(40px,30px) scale(1.08)}}
+
+/* LAYOUT */
+.wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 20px}
+.sec{padding:0 0 32px}
+.hidden{display:none!important}
+.mt16{margin-top:16px}.mt24{margin-top:24px}.mb8{margin-bottom:8px}.mb16{margin-bottom:16px}.mb24{margin-bottom:24px}.mb32{margin-bottom:32px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);position:relative;overflow:hidden}
+.cp{padding:36px}
+@media(max-width:640px){.cp{padding:24px 20px}}
+.ca::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g1);border-radius:var(--r) var(--r) 0 0}
+.ca-red::before{background:var(--g2)}
+.ca-green::before{background:var(--g3)}
+
+/* HERO */
+.hero{text-align:center;padding:80px 0 56px}
+.badge-hero{display:inline-flex;align-items:center;gap:8px;background:rgba(79,142,247,0.08);border:1px solid rgba(79,142,247,0.18);color:var(--blue);font-size:12.5px;font-weight:600;padding:7px 16px;border-radius:100px;margin-bottom:32px;letter-spacing:.3px}
+.ldot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(36px,6.5vw,56px);font-weight:900;line-height:1.08;letter-spacing:-2px;margin-bottom:20px;color:#fff}
+.grad{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-blue{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-green{background:var(--g3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:17px;color:var(--t2);max-width:500px;margin:0 auto 36px;line-height:1.7}
+.social-proof{display:inline-flex;align-items:center;gap:20px;background:var(--card);border:1px solid var(--border);border-radius:100px;padding:10px 22px;font-size:12.5px;color:var(--t2)}
+.social-proof strong{color:var(--text);font-weight:700}
+
+/* STEPS */
+.steps{display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+.si{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--t3);transition:color .3s}
+.si.active{color:var(--text)}.si.done{color:var(--green)}
+.sn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--t3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;transition:all .3s;flex-shrink:0}
+.si.active .sn{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 20px rgba(79,142,247,0.35)}
+.si.done .sn{background:var(--green);border-color:var(--green);color:#070B15}
+.sl{width:60px;height:1.5px;background:var(--border-hi,rgba(255,255,255,0.12));margin:0 8px;transition:background .4s}
+.sl.done{background:var(--green)}
+
+/* SECTION HEADER */
+.stag{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.stitle{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.ssub{font-size:14px;color:var(--t2);margin-bottom:32px;line-height:1.6}
+
+/* NUM INPUTS */
+.ig{margin-bottom:24px}
+.ig:last-of-type{margin-bottom:0}
+.ilabel{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ihint{font-size:12px;color:var(--t3);font-weight:400}
+.niw{display:flex;align-items:center;background:rgba(255,255,255,0.04);border:1.5px solid var(--border-hi,rgba(255,255,255,0.12));border-radius:var(--rs);overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.niw:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,0.12)}
+.ni{flex:1;background:transparent;border:none;outline:none;font-family:inherit;font-size:22px;font-weight:700;color:var(--text);padding:0 16px;height:52px;min-width:0}
+.ni::placeholder{color:var(--t3);font-weight:500;font-size:18px}
+.nsuf{padding:0 16px;font-size:13px;font-weight:600;color:var(--t3);white-space:nowrap}
+.nbtns{display:flex;flex-direction:column;border-left:1px solid var(--border)}
+.nbtn{width:40px;height:26px;background:transparent;border:none;cursor:pointer;font-size:14px;color:var(--t3);transition:background .15s,color .15s;display:flex;align-items:center;justify-content:center}
+.nbtn:hover{background:rgba(79,142,247,.1);color:var(--blue)}
+.nbtn+.nbtn{border-top:1px solid var(--border)}
+
+/* CONVERSION LIVE */
+.convbox{margin-top:18px;padding:18px 20px;border-radius:var(--rs);border:1.5px solid var(--border);background:rgba(255,255,255,.025);display:flex;align-items:center;justify-content:space-between;gap:16px;transition:border-color .3s}
+.convbox.cl{border-color:rgba(255,68,85,.3);background:rgba(255,68,85,.05)}
+.convbox.cm{border-color:rgba(255,149,0,.3);background:rgba(255,149,0,.05)}
+.convbox.ch{border-color:rgba(0,214,143,.3);background:rgba(0,214,143,.05)}
+.clabel{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.cval{font-size:36px;font-weight:900;letter-spacing:-1.5px;line-height:1;color:var(--t3);transition:color .3s}
+.convbox.cl .cval{color:var(--red)}.convbox.cm .cval{color:var(--orange)}.convbox.ch .cval{color:var(--green)}
+.cbadge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:5px 12px;border-radius:100px;margin-bottom:6px}
+.convbox.cl .cbadge{background:var(--red-d);color:var(--red)}.convbox.cm .cbadge{background:var(--orange-d);color:var(--orange)}.convbox.ch .cbadge{background:var(--green-d);color:var(--green)}
+.cnat{font-size:11.5px;color:var(--t3);line-height:1.5}
+.cbar-wrap{margin-top:10px;background:rgba(255,255,255,.05);border-radius:4px;height:8px;overflow:hidden}
+.cbar-fill{height:100%;border-radius:4px;transition:width .5s cubic-bezier(.22,1,.36,1),background .3s;width:0}
+.cl .cbar-fill{background:var(--g2)}.cm .cbar-fill{background:linear-gradient(90deg,var(--orange),#FFB700)}.ch .cbar-fill{background:var(--g3)}
+.blabels{display:flex;justify-content:space-between;font-size:10.5px;color:var(--t3);margin-top:5px}
+
+/* PRECISE MODE */
+.precise-toggle{margin-top:20px;padding:16px 18px;background:rgba(79,142,247,.05);border:1px solid rgba(79,142,247,.12);border-radius:var(--rs);cursor:pointer}
+.ptoggle-row{display:flex;align-items:center;gap:12px}
+.ptoggle-row input[type="checkbox"]{width:16px;height:16px;accent-color:var(--blue);cursor:pointer;flex-shrink:0}
+.ptoggle-row label{font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge-opt{font-size:10px;font-weight:700;letter-spacing:.4px;padding:2px 8px;border-radius:100px;background:var(--orange-d);color:var(--orange);text-transform:uppercase}
+.precise-body{margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.precise-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:12px}
+.precise-input{background:rgba(255,255,255,.04);border:1.5px solid var(--border-hi,rgba(255,255,255,.12));border-radius:var(--rx);padding:10px 12px;font-family:inherit;font-size:15px;font-weight:600;color:var(--text);outline:none;width:100%;transition:border-color .2s}
+.precise-input:focus{border-color:var(--blue)}
+.precise-input::placeholder{color:var(--t3);font-weight:400}
+.btn-add-devis{display:inline-flex;align-items:center;gap:6px;background:transparent;border:1.5px dashed var(--border-hi,rgba(255,255,255,.12));border-radius:var(--rx);padding:8px 14px;font-family:inherit;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;transition:border-color .2s,color .2s}
+.btn-add-devis:hover{border-color:var(--blue);color:var(--blue)}
+.precise-avg-row{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px 16px;background:rgba(0,214,143,.06);border:1px solid rgba(0,214,143,.15);border-radius:var(--rx)}
+.precise-avg-label{font-size:13px;color:var(--t2);font-weight:500}
+.precise-avg-val{font-size:20px;font-weight:900;color:var(--green);letter-spacing:-.5px;margin-left:auto}
+
+/* SLIDERS */
+.sg{margin-bottom:28px}
+.sh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px}
+.slabel{font-size:13.5px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.estag{font-size:10px;font-weight:700;letter-spacing:.5px;padding:3px 8px;border-radius:100px;background:var(--orange-d);color:var(--orange);text-transform:uppercase;white-space:nowrap}
+.sdesc{font-size:12px;color:var(--t3);margin-top:3px}
+.sval{font-size:28px;font-weight:900;letter-spacing:-1px;color:var(--text);min-width:50px;text-align:right;flex-shrink:0}
+input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:3px;background:rgba(255,255,255,.07);outline:none;cursor:pointer}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.35),0 0 0 3px rgba(79,142,247,.25);cursor:pointer;transition:box-shadow .15s,transform .15s}
+input[type="range"]::-webkit-slider-thumb:hover{box-shadow:0 2px 16px rgba(0,0,0,.4),0 0 0 5px rgba(79,142,247,.3);transform:scale(1.1)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:17px 24px;border:none;border-radius:var(--rs);font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;letter-spacing:.1px;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);animation:shimmer 3.5s infinite}
+@keyframes shimmer{0%{left:-100%}100%{left:100%}}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(0)}
+.btn-p{background:var(--g1);color:#fff;box-shadow:0 4px 24px rgba(79,142,247,.25)}.btn-p:hover{box-shadow:0 8px 36px rgba(79,142,247,.35)}
+.btn-g{background:var(--g3);color:#070B15;box-shadow:0 4px 24px rgba(0,214,143,.2)}.btn-g:hover{box-shadow:0 8px 36px rgba(0,214,143,.3)}
+.btn-ghost{background:transparent;border:1.5px solid var(--border-hi,rgba(255,255,255,.12));color:var(--t2);font-size:14px;padding:12px 20px;width:auto}.btn-ghost:hover{border-color:var(--blue);color:var(--blue);transform:none}.btn-ghost::after{display:none}
+
+/* LOADING */
+.lscreen{display:none;padding:64px 0;text-align:center}
+.lscreen.show{display:block}
+.ldots{display:inline-flex;gap:10px;margin-bottom:20px}
+.ldots span{width:10px;height:10px;border-radius:50%;background:var(--blue);animation:db 1.2s ease-in-out infinite}
+.ldots span:nth-child(2){animation-delay:.2s;background:var(--purple)}
+.ldots span:nth-child(3){animation-delay:.4s;background:var(--green)}
+@keyframes db{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-12px);opacity:1}}
+.ltext{font-size:14px;color:var(--t2)}
+.lpbar{width:200px;height:3px;background:var(--border);border-radius:2px;margin:16px auto 0;overflow:hidden}
+.lpfill{height:100%;border-radius:2px;background:var(--g1);width:0;animation:lp 11s ease-out forwards}
+@keyframes lp{0%{width:0}100%{width:100%}}
+
+/* FADE ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fu{opacity:0;animation:fadeUp .65s cubic-bezier(.22,1,.36,1) forwards}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}.d5{animation-delay:.5s}.d6{animation-delay:.6s}
+
+/* PROFILE CARD */
+.pcard{padding:28px 32px;border-radius:var(--r);border:1.5px solid rgba(79,142,247,.2);background:linear-gradient(135deg,rgba(79,142,247,.07),rgba(155,111,235,.05));margin-bottom:20px;display:flex;gap:18px;align-items:flex-start}
+@media(max-width:640px){.pcard{padding:20px;flex-direction:column;gap:12px}}
+.picon{width:52px;height:52px;border-radius:14px;background:var(--blue-d);border:1px solid rgba(79,142,247,.2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:var(--blue);font-weight:800;letter-spacing:-1px}
+.plabel{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.ptitle{font-size:17px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
+.pmsg{font-size:14px;color:var(--t2);line-height:1.65}
+.pmsg strong{color:var(--text)}
+
+/* DONUT STAT CARDS */
+.dstat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
+@media(max-width:560px){.dstat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:360px){.dstat-grid{grid-template-columns:1fr}}
+.dstat{padding:20px 16px;border-radius:var(--rs);display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.dstat.ds-red{background:rgba(255,68,85,.07);border:1px solid rgba(255,68,85,.18)}
+.dstat.ds-purple{background:rgba(155,111,235,.07);border:1px solid rgba(155,111,235,.18)}
+.dstat.ds-orange{background:rgba(255,149,0,.07);border:1px solid rgba(255,149,0,.18)}
+.dstat-label{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+.donut-wrap{position:relative;width:84px;height:84px;flex-shrink:0}
+.donut-svg{width:84px;height:84px}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut-num{font-size:19px;font-weight:900;letter-spacing:-.5px;line-height:1}
+.donut-sub{font-size:9px;color:var(--t3);font-weight:600;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
+.dstat-money{font-size:13.5px;font-weight:700;margin-top:2px}
+.dstat.ds-red .dstat-money{color:var(--red)}
+.dstat.ds-purple .dstat-money{color:var(--purple)}
+.dstat.ds-orange .dstat-money{color:var(--orange)}
+.dstat-moneylabel{font-size:11px;color:var(--t3)}
+
+/* TOTAL ANNUAL */
+.totbox{padding:28px 32px;border-radius:var(--rs);background:linear-gradient(135deg,rgba(255,68,85,.1),rgba(255,110,122,.05));border:1px solid rgba(255,68,85,.22);text-align:center;margin-bottom:14px;position:relative;overflow:hidden}
+.totbox::before{content:'';position:absolute;inset:-1px;border-radius:var(--rs);background:radial-gradient(ellipse at center top,rgba(255,68,85,.15),transparent 60%);pointer-events:none}
+.totlabel{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.totnum{font-size:clamp(44px,9vw,64px);font-weight:900;color:var(--red);letter-spacing:-2.5px;line-height:1;margin-bottom:6px}
+.totsub{font-size:14px;color:var(--t2);margin-bottom:16px}
+.tot-explain{text-align:left;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--rx);padding:14px 16px}
+.tot-explain-summary{font-size:12px;font-weight:600;color:var(--t3);display:flex;align-items:center;gap:8px;margin-bottom:0}
+.tot-explain-summary::before{content:'ℹ';font-size:13px;color:var(--blue)}
+.tot-explain-body{font-size:12.5px;color:var(--t2);line-height:1.7;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.tot-explain-body strong{color:var(--text)}
+
+/* TIME FLOW */
+.tflow{padding:24px 28px;border-radius:var(--rs);background:rgba(155,111,235,.06);border:1px solid rgba(155,111,235,.18);margin-bottom:14px}
+.tflow-header{margin-bottom:20px}
+.tflow-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.tflow-sub{font-size:12.5px;color:var(--t2)}
+.tflow-compare{display:flex;align-items:center;gap:0}
+@media(max-width:500px){.tflow-compare{flex-direction:column;gap:12px}}
+.tflow-side{flex:1;text-align:center;padding:16px}
+.tflow-side-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.tflow-side.t-before .tflow-side-label{color:var(--red)}
+.tflow-side.t-after .tflow-side-label{color:var(--green)}
+.tflow-big{font-size:clamp(28px,5vw,36px);font-weight:900;letter-spacing:-1px;line-height:1;margin-bottom:4px}
+.tflow-side.t-before .tflow-big{color:var(--red)}
+.tflow-side.t-after .tflow-big{color:var(--green)}
+.tflow-detail{font-size:12px;color:var(--t3)}
+.tflow-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;flex-shrink:0}
+.tflow-arrow-line{width:2px;height:32px;background:linear-gradient(to bottom,rgba(155,111,235,.3),rgba(0,214,143,.3))}
+.tflow-arrow-icon{font-size:18px;color:var(--green);margin:4px 0}
+@media(max-width:500px){.tflow-arrow{flex-direction:row;padding:4px 0}.tflow-arrow-line{width:32px;height:2px;background:linear-gradient(to right,rgba(155,111,235,.3),rgba(0,214,143,.3))}.tflow-arrow-icon{margin:0 4px}}
+.tflow-estim{font-size:11.5px;color:var(--t3);margin-top:12px;text-align:center}
+
+/* POTENTIAL */
+.potcard{padding:24px 28px;border-radius:var(--rs);background:rgba(0,214,143,.06);border:1px solid rgba(0,214,143,.18);margin-bottom:8px}
+.potlabel{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--green);margin-bottom:12px}
+.potbig{font-size:clamp(42px,8vw,56px);font-weight:900;color:var(--green);letter-spacing:-2px;line-height:1;margin-bottom:4px}
+.potbig-suffix{font-size:16px;color:var(--t2);font-weight:600;margin-left:4px}
+.potmonth{font-size:16px;font-weight:700;color:var(--t2);margin-bottom:14px}
+.potmonth span{color:var(--green)}
+.potcred{font-size:13px;color:var(--t2);line-height:1.65}
+.potcred strong{color:var(--text)}
+.estim-note{font-size:11.5px;color:var(--t3);padding:10px 14px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--rx);margin-top:12px;line-height:1.6}
+
+/* RECO CARDS */
+.reco{padding:22px 24px;margin-bottom:12px;display:flex;gap:0;align-items:stretch;overflow:hidden}
+.reco:hover{border-color:var(--border-hi,rgba(255,255,255,.12))}
+.reco-accent{width:3px;background:var(--blue);border-radius:3px;flex-shrink:0;margin-right:20px}
+.reco-accent.ra-blue{background:var(--blue)}.reco-accent.ra-purple{background:var(--purple)}
+.reco-accent.ra-green{background:var(--green)}.reco-accent.ra-orange{background:var(--orange)}
+.reco-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;margin-right:14px;margin-top:2px}
+.reco-num.rn-blue{background:var(--blue-d);color:var(--blue)}.reco-num.rn-purple{background:var(--purple-d);color:var(--purple)}
+.reco-num.rn-green{background:var(--green-d);color:var(--green)}.reco-num.rn-orange{background:var(--orange-d);color:var(--orange)}
+.reco-body{flex:1}
+.reco-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.reco-title{font-size:15px;font-weight:700}
+.ibadge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;white-space:nowrap}
+.ib-hi{background:var(--red-d);color:var(--red)}.ib-mid{background:var(--orange-d);color:var(--orange)}.ib-ok{background:var(--green-d);color:var(--green)}
+.reco-desc{font-size:13px;color:var(--t2);line-height:1.65}
+
+/* COMPARE */
+.cmp-layout{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:start}
+@media(max-width:640px){.cmp-layout{grid-template-columns:1fr}.vs-div{display:none}}
+.cmp-title{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:14px;text-align:center;min-height:2.8em;display:flex;align-items:center;justify-content:center}
+.tool-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border)}
+.tool-row:last-of-type{border-bottom:none}
+.tool-logo{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;letter-spacing:-.3px;flex-shrink:0;color:#fff}
+.tl-askara{background:#2563EB}.tl-lafraise{background:#DC2626}.tl-dentgpt{background:#059669}.tl-meditrust{background:#0891B2}
+.tool-info{flex:1;min-width:0}
+.tool-name{font-size:13.5px;font-weight:600}
+.tool-feat{font-size:11.5px;color:var(--t3)}
+.tool-price{font-size:14px;font-weight:700;color:var(--text);white-space:nowrap}
+.stack-total{padding:14px 16px;background:rgba(255,255,255,.035);display:flex;justify-content:space-between;align-items:center;border-top:1.5px solid var(--border-hi,rgba(255,255,255,.12))}
+.stl-label{font-size:13px;font-weight:700;color:var(--t2)}
+.stl-price{font-size:20px;font-weight:900;color:var(--red);letter-spacing:-.5px}
+.vs-div{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:40px;gap:8px}
+.vs-circle{width:36px;height:36px;border-radius:50%;background:var(--card);border:1.5px solid var(--border-hi,rgba(255,255,255,.12));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--t2)}
+.sol-inner{padding:20px;text-align:center}
+.sol-badge{display:inline-flex;align-items:center;gap:6px;background:var(--blue-d);border:1px solid rgba(79,142,247,.2);border-radius:100px;padding:5px 12px;font-size:11.5px;font-weight:700;color:var(--blue);margin-bottom:14px}
+.sol-title{font-size:16px;font-weight:800;margin-bottom:3px;letter-spacing:-.3px}
+.sol-sub{font-size:12px;color:var(--t3);margin-bottom:16px}
+.sol-feats{list-style:none;text-align:left;margin-bottom:16px}
+.sol-feats li{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--t2);padding:5px 0;border-bottom:1px solid var(--border)}
+.sol-feats li:last-child{border-bottom:none}
+.sol-feats li .ck{color:var(--green);font-size:13px;flex-shrink:0;margin-top:1px}
+.savbox{background:linear-gradient(135deg,rgba(0,214,143,.1),rgba(0,183,168,.05));border:1px solid rgba(0,214,143,.2);border-radius:var(--rs);padding:14px 16px}
+.sav-label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px}
+.sav-row{display:flex;justify-content:space-between;align-items:center}
+.sav-amount{font-size:22px;font-weight:900;color:var(--green);letter-spacing:-.5px}
+.sav-sub{font-size:11.5px;color:var(--t3);margin-top:2px}
+.cmp-disc{font-size:11px;color:var(--t3);margin-top:14px;line-height:1.6;text-align:center}
+
+/* CTA */
+.cta-outer{padding:0 0 64px}
+.cta-card{padding:52px 40px;text-align:center;border-radius:var(--r);background:linear-gradient(135deg,rgba(79,142,247,.08),rgba(155,111,235,.06));border:1px solid rgba(79,142,247,.2);position:relative;overflow:hidden}
+@media(max-width:640px){.cta-card{padding:36px 24px}}
+.cta-card::before{content:'';position:absolute;inset:-1px;border-radius:var(--r);background:radial-gradient(ellipse at 50% 0%,rgba(79,142,247,.12),transparent 60%);pointer-events:none}
+.cta-pre{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:16px}
+.cta-title{font-size:clamp(22px,4vw,30px);font-weight:900;letter-spacing:-1px;margin-bottom:14px;line-height:1.15}
+.cta-desc{font-size:15px;color:var(--t2);max-width:460px;margin:0 auto 32px;line-height:1.7}
+.btn-cta{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:18px 36px;background:var(--g1);color:#fff;border:none;border-radius:var(--rs);font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;letter-spacing:.1px;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 28px rgba(79,142,247,.3);position:relative;overflow:hidden}
+.btn-cta::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shimmer 3s infinite}
+.btn-cta:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(79,142,247,.4)}
+.cta-arr{font-size:20px;transition:transform .2s}.btn-cta:hover .cta-arr{transform:translateX(4px)}
+.cta-rea{margin-top:18px;font-size:12px;color:var(--t3);display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.cta-rea span{display:flex;align-items:center;gap:5px}
+
+/* TRUST BADGES */
+.trust-bar{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--rx)}
+.tbadge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--t3);letter-spacing:.2px}
+.tbadge svg{width:13px;height:13px;flex-shrink:0;color:var(--blue);opacity:.7}
+
+/* FOOTER */
+.footer{text-align:center;padding:24px 0 36px;font-size:12px;color:var(--t3);border-top:1px solid var(--border);margin-top:16px}
+</style>
+</head>
+<body>
+<div class="amb"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="badge-hero"><span class="ldot"></span> Outil gratuit · Diagnostic personnalisé · 2 minutes</div>
+    <h1>Combien votre cabinet<br>perd-il <span class="grad">chaque mois ?</span></h1>
+    <p class="hero-sub">Renseignez vos chiffres approximatifs. Obtenez un diagnostic basé sur votre situation.</p>
+    <div class="social-proof"><span><strong>847</strong> cabinets analysés</span><span style="color:var(--t3)">·</span><span>Économie moyenne détectée : <strong>26 400€/an</strong></span></div>
+  </div>
+</section>
+
+<!-- ═══ ÉTAPE 1 ═══ -->
+<section class="sec" id="s1">
+  <div class="wrap">
+    <div class="steps mb32">
+      <div class="si active"><div class="sn">1</div><span>Vos devis</span></div>
+      <div class="sl" id="l1"></div>
+      <div class="si" id="si2"><div class="sn">2</div><span>Votre planning</span></div>
+      <div class="sl" id="l2"></div>
+      <div class="si" id="si3"><div class="sn">3</div><span>Résultats</span></div>
+    </div>
+    <div class="card cp ca">
+      <div class="stag">Étape 1 / 2</div>
+      <div class="stitle">Vos devis ce mois-ci</div>
+      <div class="ssub">Ces données sont utilisées uniquement pour votre calcul personnalisé. Elles ne sont pas conservées.</div>
+
+      <div class="ig">
+        <div class="ilabel">Devis remis à vos patients ce mois</div>
+        <div class="niw">
+          <input type="number" class="ni" id="ie" min="0" max="200" placeholder="ex : 20" oninput="onInput()">
+          <span class="nsuf">devis / mois</span>
+          <div class="nbtns"><button class="nbtn" onclick="step('ie',1)">▲</button><button class="nbtn" onclick="step('ie',-1)">▼</button></div>
+        </div>
+      </div>
+
+      <div class="ig">
+        <div class="ilabel">Devis acceptés <span class="ihint">(traitements effectivement démarrés)</span></div>
+        <div class="niw">
+          <input type="number" class="ni" id="ia" min="0" max="200" placeholder="ex : 9" oninput="onInput()">
+          <span class="nsuf">acceptés / mois</span>
+          <div class="nbtns"><button class="nbtn" onclick="step('ia',1)">▲</button><button class="nbtn" onclick="step('ia',-1)">▼</button></div>
+        </div>
+      </div>
+
+      <div class="convbox" id="convbox">
+        <div>
+          <div class="clabel">Votre taux de conversion</div>
+          <div class="cval" id="cval">—</div>
+          <div class="cbar-wrap" style="margin-top:10px;"><div class="cbar-fill" id="cbar"></div></div>
+          <div class="blabels"><span>0%</span><span>Moy. nationale : 48%</span><span>100%</span></div>
+        </div>
+        <div style="text-align:right">
+          <div class="cbadge" id="cbadge">Renseignez vos chiffres</div>
+          <div class="cnat" id="cnat">pour voir votre situation en temps réel.</div>
+        </div>
+      </div>
+
+      <div class="ig mt24">
+        <div class="ilabel">Prix moyen de vos devis</div>
+        <div class="niw" id="ticket-manual-wrap">
+          <input type="number" class="ni" id="it" min="0" max="10000" step="50" placeholder="ex : 900" oninput="onInput()">
+          <span class="nsuf">€ / devis</span>
+          <div class="nbtns"><button class="nbtn" onclick="step('it',50)">▲</button><button class="nbtn" onclick="step('it',-50)">▼</button></div>
+        </div>
+      </div>
+
+      <!-- PRECISE MODE -->
+      <div class="precise-toggle">
+        <div class="ptoggle-row">
+          <input type="checkbox" id="cb-precise" onchange="togglePrecise()">
+          <label for="cb-precise">
+            Calculer mon prix moyen automatiquement
+            <span class="badge-opt">Facultatif</span>
+          </label>
+        </div>
+        <div id="precise-body" class="precise-body hidden" onclick="event.stopPropagation()">
+          <p style="font-size:13px;color:var(--t2);margin-bottom:12px;">Entrez le montant de chaque devis que vous avez remis cette semaine. La moyenne sera calculée et utilisée comme prix de référence.</p>
+          <div class="precise-grid" id="precise-grid">
+            <input type="number" class="precise-input" placeholder="800 €" oninput="calcPrecise()">
+            <input type="number" class="precise-input" placeholder="1 200 €" oninput="calcPrecise()">
+            <input type="number" class="precise-input" placeholder="650 €" oninput="calcPrecise()">
+          </div>
+          <button class="btn-add-devis" onclick="event.stopPropagation();addPreciseInput()" id="btn-add">+ Ajouter un devis</button>
+          <div class="precise-avg-row" id="precise-avg-row" style="display:none">
+            <span class="precise-avg-label">Prix moyen calculé</span>
+            <span class="precise-avg-val" id="precise-avg">—</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-p mt24" onclick="goStep2()">Étape suivante <span style="font-size:18px">›</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ÉTAPE 2 ═══ -->
+<section class="sec hidden" id="s2">
+  <div class="wrap">
+    <div class="steps mb32">
+      <div class="si done"><div class="sn">✓</div><span>Vos devis</span></div>
+      <div class="sl done"></div>
+      <div class="si active"><div class="sn">2</div><span>Votre planning</span></div>
+      <div class="sl" id="l2b"></div>
+      <div class="si"><div class="sn">3</div><span>Résultats</span></div>
+    </div>
+    <div class="card cp ca">
+      <div class="stag">Étape 2 / 2</div>
+      <div class="stitle">Votre planning</div>
+      <div class="ssub">Ces données sont des estimations. Elles seront indiquées comme telles dans votre diagnostic.</div>
+
+      <div class="sg">
+        <div class="sh">
+          <div>
+            <div class="slabel">No-shows par semaine <span class="estag">Estimation</span></div>
+            <div class="sdesc">Patients absents sans prévenir ou annulation en dernière minute</div>
+          </div>
+          <div class="sval" id="vns">2</div>
+        </div>
+        <input type="range" id="sns" min="0" max="10" value="2" step="1" oninput="updateSlider('sns','vns')">
+      </div>
+
+      <div class="sg">
+        <div class="sh">
+          <div>
+            <div class="slabel">Urgences non programmées par semaine <span class="estag">Estimation</span></div>
+            <div class="sdesc">Patients qui appellent ou se présentent sans rendez-vous planifié</div>
+          </div>
+          <div class="sval" id="vug">3</div>
+        </div>
+        <input type="range" id="sug" min="0" max="15" value="3" step="1" oninput="updateSlider('sug','vug')">
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:28px;">
+        <button class="btn btn-ghost" onclick="goStep1()">← Retour</button>
+        <button class="btn btn-p" style="flex:1" onclick="calculate()">Analyser mon cabinet →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LOADING ═══ -->
+<div class="wrap hidden" id="sl">
+  <div class="lscreen show">
+    <div class="ldots"><span></span><span></span><span></span></div>
+    <div class="ltext" id="ltxt">Analyse de vos données en cours...</div>
+    <div class="lpbar"><div class="lpfill" id="lpf"></div></div>
+  </div>
+</div>
+
+<!-- ═══ RÉSULTATS ═══ -->
+<section class="sec hidden" id="sr">
+  <div class="wrap">
+    <div class="steps mb32">
+      <div class="si done"><div class="sn">✓</div><span>Vos devis</span></div>
+      <div class="sl done"></div>
+      <div class="si done"><div class="sn">✓</div><span>Votre planning</span></div>
+      <div class="sl done"></div>
+      <div class="si active" style="color:var(--text)"><div class="sn" style="background:var(--blue);border-color:var(--blue);color:#fff">3</div><span>Résultats</span></div>
+    </div>
+
+    <!-- Profile -->
+    <div class="pcard fu d1" id="pcard">
+      <div class="picon" id="picon">—</div>
+      <div>
+        <div class="plabel">Votre diagnostic personnalisé</div>
+        <div class="ptitle" id="ptitle"></div>
+        <div class="pmsg" id="pmsg"></div>
+      </div>
+    </div>
+
+    <!-- Donut stats -->
+    <div class="dstat-grid fu d2">
+      <div class="dstat ds-red">
+        <div class="dstat-label">Devis sans suite</div>
+        <div class="donut-wrap">
+          <svg class="donut-svg" viewBox="0 0 84 84">
+            <circle cx="42" cy="42" r="32" fill="none" stroke="rgba(255,68,85,0.1)" stroke-width="7"/>
+            <circle cx="42" cy="42" r="32" fill="none" stroke="#FF4455" stroke-width="7" stroke-linecap="round"
+              stroke-dasharray="0 201.06" id="d-arc-red" transform="rotate(-90 42 42)" style="transition:stroke-dasharray 1.2s cubic-bezier(.22,1,.36,1)"/>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-num" id="d-devis" style="color:var(--red)">0</div>
+            <div class="donut-sub">/ mois</div>
+          </div>
+        </div>
+        <div class="dstat-money" id="d-devis-ca">0 €</div>
+        <div class="dstat-moneylabel">par mois</div>
+      </div>
+      <div class="dstat ds-purple">
+        <div class="dstat-label">No-shows</div>
+        <div class="donut-wrap">
+          <svg class="donut-svg" viewBox="0 0 84 84">
+            <circle cx="42" cy="42" r="32" fill="none" stroke="rgba(155,111,235,0.1)" stroke-width="7"/>
+            <circle cx="42" cy="42" r="32" fill="none" stroke="#9B6FEB" stroke-width="7" stroke-linecap="round"
+              stroke-dasharray="0 201.06" id="d-arc-purple" transform="rotate(-90 42 42)" style="transition:stroke-dasharray 1.2s cubic-bezier(.22,1,.36,1) .1s"/>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-num" id="d-noshow" style="color:var(--purple)">0</div>
+            <div class="donut-sub">/ sem</div>
+          </div>
+        </div>
+        <div class="dstat-money" id="d-noshow-ca">0 €</div>
+        <div class="dstat-moneylabel">par mois (estim.)</div>
+      </div>
+      <div class="dstat ds-orange">
+        <div class="dstat-label">Urgences</div>
+        <div class="donut-wrap">
+          <svg class="donut-svg" viewBox="0 0 84 84">
+            <circle cx="42" cy="42" r="32" fill="none" stroke="rgba(255,149,0,0.1)" stroke-width="7"/>
+            <circle cx="42" cy="42" r="32" fill="none" stroke="#FF9500" stroke-width="7" stroke-linecap="round"
+              stroke-dasharray="0 201.06" id="d-arc-orange" transform="rotate(-90 42 42)" style="transition:stroke-dasharray 1.2s cubic-bezier(.22,1,.36,1) .2s"/>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-num" id="d-urgences" style="color:var(--orange)">0</div>
+            <div class="donut-sub">/ sem</div>
+          </div>
+        </div>
+        <div class="dstat-money" id="d-urgences-sub">0</div>
+        <div class="dstat-moneylabel" id="d-urgences-label">/ mois</div>
+      </div>
+    </div>
+
+    <!-- Total annual -->
+    <div class="totbox fu d3">
+      <div class="totlabel">CA non capturé chaque année</div>
+      <div class="totnum" id="tot-an">0 €</div>
+      <div class="totsub" id="tot-mois">soit 0 € par mois</div>
+      <div class="tot-explain">
+        <div class="tot-explain-summary">Comment ce chiffre est-il calculé ?</div>
+        <div class="tot-explain-body" id="tot-explain-body">
+          Ce montant représente le <strong>maximum théorique</strong> non capturé, basé sur vos chiffres.<br><br>
+          En pratique, il est impossible de tout récupérer : certains patients ne reprogramment pas, certains devis ne se convertiront jamais. <strong>Ce qui compte, c'est le pourcentage récupérable</strong> grâce aux bons outils, affiché ci-dessous. Plus votre CA non capturé est élevé, plus votre potentiel de récupération est important.
+        </div>
+      </div>
+    </div>
+
+    <!-- Temps perdu -->
+    <div class="tflow fu d4">
+      <div class="tflow-header">
+        <div class="stag" style="margin-bottom:4px;">Impact sur votre agenda</div>
+        <div class="tflow-title">Temps mobilisé par l'imprévu chaque mois</div>
+        <div class="tflow-sub">No-shows et urgences non anticipées perturbent votre organisation et mobilisent du temps non facturable.</div>
+      </div>
+      <div class="tflow-compare">
+        <div class="tflow-side t-before">
+          <div class="tflow-side-label">Actuellement</div>
+          <div class="tflow-big" id="t-perdu">~0h</div>
+          <div class="tflow-detail" id="t-detail">de gestion imprévue / mois</div>
+        </div>
+        <div class="tflow-arrow">
+          <div class="tflow-arrow-line"></div>
+          <div class="tflow-arrow-icon">→</div>
+          <div class="tflow-arrow-line"></div>
+        </div>
+        <div class="tflow-side t-after">
+          <div class="tflow-side-label">Avec automatisation</div>
+          <div class="tflow-big">~1-2h</div>
+          <div class="tflow-detail">de suivi mensuel</div>
+        </div>
+      </div>
+      <div class="tflow-estim">Estimation basée sur 30 min par no-show et 20 min par urgence non programmée.</div>
+    </div>
+
+    <!-- Potential -->
+    <div class="potcard fu d5">
+      <div class="potlabel">Potentiel récupérable</div>
+      <div>
+        <span class="potbig" id="pot-an">+0 €</span>
+        <span class="potbig-suffix">/ an</span>
+      </div>
+      <div class="potmonth">soit <span id="pot-mois">+0 €</span> / mois</div>
+      <p class="potcred" id="potcred">En s'appuyant sur les outils d'optimisation les plus performants du marché, les cabinets dentaires observent en moyenne une récupération de <strong>30 à 35%</strong> de leur CA non capturé dès les 3 premiers mois d'utilisation.</p>
+      <div class="estim-note">⚠️ Ces projections s'appuient sur des données observées dans des cabinets ayant adopté des outils d'automatisation personnalisés à leur cabinet. Vos résultats peuvent varier selon votre contexte.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ PLAN D'ACTION ═══ -->
+<section class="sec hidden" id="spa">
+  <div class="wrap">
+    <div class="stag mb8">Plan d'action</div>
+    <div class="stitle mb8">Comment récupérer ce CA</div>
+    <div class="ssub">Actions prioritaires basées sur votre profil, classées par impact.</div>
+    <div id="recos"></div>
+  </div>
+</section>
+
+<!-- ═══ COMPARATIF ═══ -->
+<section class="sec hidden" id="scmp">
+  <div class="wrap">
+    <div class="stag mb8">Comparatif coût</div>
+    <div class="stitle mb8">Vous payez peut-être déjà trop</div>
+    <div class="ssub">Si vous équipez votre cabinet outil par outil pour couvrir toutes ces fonctionnalités, voici ce que cela représente chaque mois.</div>
+    <div class="card cp ca mb16">
+      <div class="cmp-layout">
+        <div>
+          <div class="cmp-title">Coût outil par outil</div>
+          <div style="border:1px solid var(--border);border-radius:var(--rs);overflow:hidden;">
+            <div class="tool-row">
+              <div class="tool-logo tl-askara">AS</div>
+              <div class="tool-info"><div class="tool-name">Askara</div><div class="tool-feat">Transcription + compte-rendu IA</div></div>
+              <div class="tool-price">43€/m</div>
+            </div>
+            <div class="tool-row">
+              <div class="tool-logo tl-lafraise">LF</div>
+              <div class="tool-info"><div class="tool-name">La Fraise</div><div class="tool-feat">Conversion devis, relance, signature</div></div>
+              <div class="tool-price">~125€/m</div>
+            </div>
+            <div class="tool-row">
+              <div class="tool-logo tl-dentgpt">DG</div>
+              <div class="tool-info"><div class="tool-name">DentistryGPT</div><div class="tool-feat">WhatsApp suivi post-consultation</div></div>
+              <div class="tool-price">99€/m</div>
+            </div>
+            <div class="tool-row">
+              <div class="tool-logo tl-meditrust">MT</div>
+              <div class="tool-info"><div class="tool-name">Meditrust</div><div class="tool-feat">Avis Google patients</div></div>
+              <div class="tool-price">34€/m</div>
+            </div>
+            <div class="stack-total">
+              <span class="stl-label">Total / mois</span>
+              <span class="stl-price">~301€</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vs-div"><div class="vs-circle">VS</div></div>
+
+        <div>
+          <div class="cmp-title">Solution personnalisée pour vous</div>
+          <div class="card" style="border-color:rgba(79,142,247,.25);background:rgba(79,142,247,.04);">
+            <div class="sol-inner">
+              <div class="sol-badge">✦ Recommandée pour votre profil</div>
+              <div class="sol-title">1 seul outil. Tout en 1.</div>
+              <div class="sol-sub">Aucun changement d'habitude · Un seul tarif</div>
+              <ul class="sol-feats">
+                <li><span class="ck">✓</span> Transcription + compte-rendu IA</li>
+                <li><span class="ck">✓</span> Conversion et relance des devis</li>
+                <li><span class="ck">✓</span> Suivi WhatsApp post-consultation</li>
+                <li><span class="ck">✓</span> Collecte avis Google ciblée</li>
+                <li><span class="ck">✓</span> Rappels RDV automatiques</li>
+                <li><span class="ck">✓</span> Tout interconnecté · HDS · RGPD</li>
+              </ul>
+              <div class="savbox">
+                <div class="sav-label">Économie réalisée</div>
+                <div class="sav-row">
+                  <div>
+                    <div class="sav-amount">Significative</div>
+                    <div class="sav-sub">versus le stack outil par outil</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="cmp-disc">* Prix indicatifs basés sur les offres d'entrée de gamme (premier palier tarifaire) de chaque outil, selon les grilles tarifaires publiques au moment de la rédaction. La Fraise, Askara, DentistryGPT et Meditrust sont propriétaires de leurs propres tarifs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-outer hidden" id="scta">
+  <div class="wrap">
+    <div class="cta-card">
+      <div class="cta-pre">Prochaine étape</div>
+      <a href="https://tally.so/r/jaWB2x" target="_blank" class="btn-cta" style="margin-top:8px;">
+        Découvrir la solution adaptée à mon cabinet
+        <span class="cta-arr">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="trust-bar" style="margin-bottom:16px;">
+      <div class="tbadge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>RGPD Conforme</div>
+      <div class="tbadge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>HDS</div>
+      <div class="tbadge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Données non conservées</div>
+      <div class="tbadge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>Outil 100% gratuit</div>
+    </div>
+    Diagnostic gratuit · Données traitées localement, non conservées
+  </div>
+</footer>
+
+<script>
+const fmt = n => Math.round(n).toLocaleString('fr-FR');
+const $ = id => document.getElementById(id);
+const CIRC = 201.06; // 2π×32
+
+function step(id, delta) {
+  const el = $(id);
+  el.value = Math.max(+(el.min)||0, Math.min(+(el.max)||99999, (+el.value||0)+delta));
+  el.dispatchEvent(new Event('input'));
+}
+
+function updateSlider(sid, vid) {
+  const sl = $(sid), v = +sl.value;
+  $(vid).textContent = v;
+  const pct = ((v-+sl.min)/(+sl.max-+sl.min))*100;
+  sl.style.background=`linear-gradient(to right,var(--blue) 0%,var(--blue) ${pct}%,rgba(255,255,255,.07) ${pct}%)`;
+}
+updateSlider('sns','vns');
+updateSlider('sug','vug');
+
+// ─── PRECISE MODE ────────────────────────────────────────────────────────────
+let preciseActive = false;
+function togglePrecise() {
+  preciseActive = !preciseActive;
+  $('cb-precise').checked = preciseActive;
+  $('precise-body').classList.toggle('hidden', !preciseActive);
+  $('ticket-manual-wrap').style.opacity = preciseActive ? '0.35' : '1';
+  $('ticket-manual-wrap').style.pointerEvents = preciseActive ? 'none' : 'auto';
+  if (preciseActive) calcPrecise();
+}
+
+function addPreciseInput() {
+  const grid = $('precise-grid');
+  if (grid.children.length >= 15) return;
+  const inp = document.createElement('input');
+  inp.type = 'number'; inp.className = 'precise-input';
+  inp.placeholder = '€'; inp.oninput = calcPrecise;
+  grid.appendChild(inp);
+  inp.focus();
+  if (grid.children.length >= 15) $('btn-add').style.display = 'none';
+}
+
+function calcPrecise() {
+  const inputs = Array.from($('precise-grid').querySelectorAll('input'));
+  const vals = inputs.map(i => +i.value).filter(v => v > 0);
+  const avg = vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : null;
+  const row = $('precise-avg-row');
+  if (avg) {
+    row.style.display = 'flex';
+    $('precise-avg').textContent = avg.toLocaleString('fr-FR') + ' €';
+  } else {
+    row.style.display = 'none';
+  }
+}
+
+function getPreciseAvg() {
+  if (!preciseActive) return null;
+  const inputs = Array.from($('precise-grid').querySelectorAll('input'));
+  const vals = inputs.map(i => +i.value).filter(v => v > 0);
+  return vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : null;
+}
+
+// ─── LIVE CONVERSION ─────────────────────────────────────────────────────────
+function onInput() {
+  const emis = +($('ie').value)||0, acc = +($('ia').value)||0;
+  const box = $('convbox');
+  if (acc > emis && emis > 0) $('ia').value = emis;
+  const sAcc = Math.min(acc, emis);
+  const taux = emis > 0 ? sAcc/emis : null;
+  box.className = 'convbox';
+  if (!taux && taux !== 0) {
+    $('cval').textContent='—'; $('cbadge').textContent='Renseignez vos chiffres';
+    $('cnat').textContent='pour voir votre situation en temps réel.';
+    $('cbar').style.width='0%'; return;
+  }
+  const pct = Math.round(taux*100);
+  $('cval').textContent=pct+'%'; $('cbar').style.width=pct+'%';
+  if (pct < 35) {
+    box.classList.add('cl');
+    $('cbadge').textContent='En dessous de la moyenne';
+    $('cnat').innerHTML=`Moyenne nationale : <strong>48%</strong><br>Écart : ${48-pct} points en dessous`;
+  } else if (pct < 52) {
+    box.classList.add('cm');
+    $('cbadge').textContent='Dans la moyenne nationale';
+    $('cnat').innerHTML=`Moyenne nationale : <strong>48%</strong><br>Vous êtes dans la norme`;
+  } else {
+    box.classList.add('ch');
+    $('cbadge').textContent='Au-dessus de la moyenne';
+    $('cnat').innerHTML=`Moyenne nationale : <strong>48%</strong><br>+${pct-48} points au-dessus`;
+  }
+}
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+function goStep2() {
+  const emis=+($('ie').value), acc=+($('ia').value);
+  const precAvg = getPreciseAvg();
+  const ticket = precAvg || +($('it').value);
+  if (!emis||emis<1){alert('Veuillez renseigner le nombre de devis remis.');return}
+  if (isNaN(acc)||acc<0){alert('Veuillez renseigner le nombre de devis acceptés.');return}
+  if (!ticket||ticket<1){alert('Veuillez renseigner votre prix moyen de devis.');return}
+  if (acc>emis){alert('Les devis acceptés ne peuvent pas dépasser les devis remis.');return}
+  $('s1').classList.add('hidden');
+  $('s2').classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goStep1() {
+  $('s2').classList.add('hidden');
+  $('s1').classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─── CALCULATE ────────────────────────────────────────────────────────────────
+function calculate() {
+  const emis = +($('ie').value);
+  const acc  = Math.min(+($('ia').value),emis);
+  const precAvg = getPreciseAvg();
+  const ticket = precAvg || +($('it').value);
+  const nsW  = +($('sns').value); // no-shows per week
+  const ugW  = +($('sug').value); // urgences per week
+
+  $('s2').classList.add('hidden');
+  $('sl').classList.remove('hidden');
+  const bar=$('lpf'); bar.style.animation='none'; bar.offsetHeight; bar.style.animation='';
+
+  const msgs=['Analyse de vos données en cours...','Calcul de votre taux de conversion...','Identification de vos leviers de croissance...','Estimation du CA récupérable...','Génération du diagnostic personnalisé...'];
+  let mi=0;
+  const iv=setInterval(()=>{mi++;if(mi<msgs.length)$('ltxt').textContent=msgs[mi];},2000);
+  setTimeout(()=>{clearInterval(iv);$('sl').classList.add('hidden');renderResults(emis,acc,ticket,nsW,ugW);},11000);
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function animCount(el, target, suffix, dur, prefix='') {
+  const s=performance.now();
+  (function t(n){const p=Math.min((n-s)/dur,1);el.textContent=prefix+fmt(Math.round(target*(1-Math.pow(1-p,3))))+suffix;if(p<1)requestAnimationFrame(t);})(s);
+}
+
+function setArc(id, pct) {
+  const fill = Math.min(pct, 100) / 100 * CIRC;
+  $(id).setAttribute('stroke-dasharray', `${fill.toFixed(2)} ${CIRC}`);
+}
+
+function renderResults(emis, acc, ticket, nsW, ugW) {
+  const devisSS   = emis - acc;
+  const tauxConv  = emis > 0 ? acc/emis : 0;
+  const caDevisM  = devisSS * ticket;
+
+  const nsMois    = nsW * 4;
+  const ugMois    = ugW * 4;
+
+  // No-show value: conservative 17% of ticket, capped at 180€
+  const valCren   = Math.round(Math.min(ticket * 0.17, 180));
+  const caNsM     = nsMois * valCren;
+
+  const totalM    = caDevisM + caNsM;
+  const totalAn   = totalM * 12;
+
+  // Temps
+  const tMins     = nsMois*30 + ugMois*20;
+  const tHeures   = Math.round(tMins/60);
+
+  // Récupérable
+  const recDevis  = Math.round(devisSS * 0.30);
+  const recNs     = Math.round(nsMois * 0.50);
+  const recMois   = recDevis*ticket + recNs*valCren;
+  const recAn     = recMois * 12;
+
+  const pct       = Math.round(tauxConv * 100);
+
+  // ── Profile ──
+  let pIconTxt, pTitle, pMsg;
+
+  if (pct >= 70) {
+    pIconTxt = '70+';
+    pTitle   = 'Excellent taux de conversion';
+    pMsg     = `Votre taux de conversion de <strong>${pct}%</strong> vous place parmi les meilleurs cabinets. Le vrai levier pour vous est maintenant votre gestion de l'agenda : vos <strong>${nsW} no-shows/semaine</strong>${ugW >= 3 ? ` et vos <strong>${ugW} urgences/semaine</strong>` : ''} représentent du temps et du CA récupérables directement.`;
+  } else if (pct >= 52) {
+    pIconTxt = pct+'%';
+    pTitle   = 'Bon taux, encore un potentiel significatif';
+    pMsg     = `Avec <strong>${pct}%</strong> de conversion, vous êtes au-dessus de la moyenne nationale (48%). Mais les cabinets les plus performants atteignent <strong>70% et plus</strong> grâce aux bons outils. Vos <strong>${devisSS} devis sans suite</strong> ce mois représentent une opportunité concrète d'aller chercher ces points supplémentaires.${nsW >= 2 ? ` En parallèle, vos <strong>${nsW} no-shows/semaine</strong> sont votre second levier.` : ''}`;
+  } else if (pct >= 35) {
+    pIconTxt = pct+'%';
+    pTitle   = 'Taux de conversion dans la moyenne nationale';
+    pMsg     = `Votre taux de conversion de <strong>${pct}%</strong> est dans la norme des cabinets français (48%). Mais "dans la norme" ne veut pas dire optimisé : vos <strong>${devisSS} devis sans suite</strong> représentent des patients qui ont besoin de plus d'accompagnement pour décider. Avec les bons outils, les cabinets similaires au vôtre passent à <strong>60-65%</strong>.${nsW >= 2 ? ` Vos <strong>${nsW} no-shows/semaine</strong> sont un second levier immédiatement actionnable.` : ''}`;
+  } else if (pct >= 0 && devisSS > 0) {
+    pIconTxt = pct+'%';
+    pTitle   = 'Levier principal : conversion des devis';
+    pMsg     = `Votre taux de conversion de <strong>${pct}%</strong> est en dessous de la moyenne nationale (48%). Sur vos <strong>${emis} devis remis ce mois</strong>, seulement <strong>${acc} ont abouti</strong>. Ce n'est pas une question de qualité du praticien : les patients ont besoin d'être accompagnés dans leur décision, avec les bons messages au bon moment.`;
+  } else {
+    pIconTxt = '?';
+    pTitle   = 'Renseignez vos données pour voir votre profil';
+    pMsg     = 'Votre diagnostic personnalisé s\'affiche après avoir renseigné vos données.';
+  }
+
+  if (ugW >= 4 && pct >= 48) {
+    pMsg += ` Par ailleurs, vos <strong>${ugW} urgences/semaine</strong> (~${ugMois}/mois) perturbent significativement votre planning.`;
+  }
+
+  $('picon').textContent = pIconTxt;
+  $('picon').style.fontSize = pct >= 35 ? '14px' : '11px';
+  $('ptitle').textContent = pTitle;
+  $('pmsg').innerHTML = pMsg;
+
+  // ── Donut charts ──
+  setTimeout(() => {
+    // Devis sans suite: % of total devis
+    const pctDevis = emis > 0 ? (devisSS/emis)*100 : 0;
+    setArc('d-arc-red', pctDevis);
+
+    // No-shows: severity over 10/week
+    const pctNs = Math.min((nsW/8)*100, 100);
+    setArc('d-arc-purple', pctNs);
+
+    // Urgences: severity over 12/week
+    const pctUg = Math.min((ugW/10)*100, 100);
+    setArc('d-arc-orange', pctUg);
+  }, 300);
+
+  $('d-devis').textContent   = devisSS;
+  $('d-noshow').textContent  = nsW;
+  $('d-urgences').textContent = ugW;
+
+  setTimeout(() => {
+    animCount($('d-devis-ca'), caDevisM, ' €', 900, '~');
+    animCount($('d-noshow-ca'), caNsM, ' €', 900, '~');
+    $('d-urgences-sub').textContent = ugMois;
+    $('d-urgences-label').textContent = 'perturbations/mois';
+  }, 300);
+
+  // ── Total ──
+  setTimeout(() => {
+    animCount($('tot-an'), totalAn, ' €', 1800, '~');
+    $('tot-mois').textContent = `soit ~${fmt(totalM)} € par mois`;
+  }, 200);
+
+  // ── Temps ──
+  $('t-perdu').textContent  = '~' + tHeures + 'h';
+  $('t-detail').textContent = `no-shows (${nsMois}/mois) + urgences (${ugMois}/mois)`;
+
+  // ── Potential ──
+  setTimeout(() => {
+    animCount($('pot-an'), recAn, ' €', 1400, '~+');
+    $('pot-mois').textContent = '~+' + fmt(recMois) + ' €';
+  }, 200);
+
+  // ── CTA amount ──
+  const ctaAmtStr = recAn >= 1000 ? '~+' + fmt(recAn) + ' €/an' : '~+' + fmt(recMois) + ' €/mois';
+  if ($('cta-amount')) $('cta-amount').textContent = ctaAmtStr;
+
+  // ── Recos ──
+  const rlist = buildRecos(devisSS, nsW, nsMois, ugW, ugMois, pct, acc, emis, ticket, valCren);
+  const rc = $('recos');
+  rc.innerHTML = '';
+  rlist.forEach((r,i) => {
+    const d=document.createElement('div');
+    d.className='card reco';
+    d.innerHTML=`
+      <div class="reco-accent ${r.accentClass}"></div>
+      <div class="reco-num ${r.numClass}">${i+1}</div>
+      <div class="reco-body">
+        <div class="reco-head">
+          <div class="reco-title">${r.title}</div>
+          <span class="ibadge ${r.ibc}">${r.impact}</span>
+        </div>
+        <p class="reco-desc">${r.desc}</p>
+      </div>`;
+    rc.appendChild(d);
+  });
+
+  ['sr','spa','scmp','scta'].forEach(id => $(id).classList.remove('hidden'));
+  setTimeout(()=>$('sr').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+// ─── RECOS ────────────────────────────────────────────────────────────────────
+function buildRecos(devisSS, nsW, nsMois, ugW, ugMois, pctConv, acc, emis, ticket, valCren) {
+  const recos = [];
+  const lossDevis = devisSS * ticket;
+  const lossNs    = nsMois * valCren;
+
+  if (lossDevis >= lossNs) {
+    if (devisSS > 0) {
+      recos.push({
+        accentClass:'ra-blue', numClass:'rn-blue',
+        title: 'Système de relance et conversion des devis',
+        impact: 'Impact fort', ibc: 'ib-hi',
+        desc: `Vous avez environ <strong>${devisSS} devis sans suite</strong> ce mois. Ce n'est pas parce que vous avez mal expliqué, ni à cause du prix : vu l'optimisation de votre cabinet, vous faites partie des praticiens sérieux et rigoureux. Simplement, vos patients ont besoin de comprendre davantage, d'avoir des réexplications avec leurs mots, de voir peut-être un court récapitulatif visuel. Une relance personnalisée à J+3, puis à J+15 (le moment clé où la mutuelle répond), c'est la séquence qui fait la différence. Discret, non intrusif, mais décisif.`
+      });
+    }
+    if (nsW >= 1) {
+      recos.push({
+        accentClass:'ra-orange', numClass:'rn-orange',
+        title: 'Rappels RDV et recapture automatique',
+        impact: nsW >= 3 ? 'Impact fort' : 'Impact moyen', ibc: nsW >= 3 ? 'ib-hi' : 'ib-mid',
+        desc: `${nsW} no-show${nsW > 1 ? 's' : ''}/semaine représentent ${nsMois*12} créneaux vides sur l'année. Un rappel WhatsApp ou SMS 48h avant, avec la possibilité de reprogrammer en un clic, réduit ce chiffre de moitié en moyenne. Quand un patient annule, le système lui propose immédiatement un autre créneau disponible : moins de perte patient, et une place aussitôt occupée par quelqu'un d'autre.`
+      });
+    }
+  } else {
+    if (nsW >= 1) {
+      recos.push({
+        accentClass:'ra-orange', numClass:'rn-orange',
+        title: 'Rappels RDV et recapture automatique',
+        impact: 'Impact fort', ibc: 'ib-hi',
+        desc: `${nsW} no-show${nsW > 1 ? 's' : ''}/semaine représentent ${nsMois*12} créneaux vides sur l'année. Un rappel WhatsApp ou SMS 48h avant, avec la possibilité de reprogrammer en un clic, réduit ce chiffre de moitié en moyenne. Quand un patient annule, le système lui propose immédiatement un autre créneau disponible : moins de perte patient, et une place aussitôt occupée par quelqu'un d'autre.`
+      });
+    }
+    if (devisSS > 0) {
+      recos.push({
+        accentClass:'ra-blue', numClass:'rn-blue',
+        title: 'Système de relance et conversion des devis',
+        impact: 'Impact moyen', ibc: 'ib-mid',
+        desc: `Vos ${devisSS} devis sans suite ne sont pas des pertes définitives. Ces patients ont besoin d'être accompagnés, de mieux comprendre leur traitement avec leurs mots, et d'être relancés au bon moment. Une séquence J+3 puis J+15 (retour mutuelle) peut convertir 25 à 35% de ces devis supplémentaires.`
+      });
+    }
+  }
+
+  if (ugW >= 3) {
+    recos.push({
+      accentClass:'ra-purple', numClass:'rn-purple',
+      title: 'Réduction des urgences non programmées',
+      impact: 'Impact moyen', ibc: 'ib-mid',
+      desc: `Vos ${ugMois} urgences/mois perturbent votre planning et mobilisent un temps précieux. Une grande partie de ces urgences vient de patients qui cherchent des conseils post-opératoires ou qui appliquent des solutions provisoires maison faute de réponse rapide. Un suivi post-consultation automatisé (prise de nouvelles, conseils, réponses aux questions fréquentes) réduit significativement ces appels et consultations évitables.`
+    });
+  }
+
+  recos.push({
+    accentClass:'ra-purple', numClass:'rn-purple',
+    title: 'Suivi post-consultation de qualité',
+    impact: ugW >= 3 ? 'Impact fort' : 'Impact moyen', ibc: ugW >= 3 ? 'ib-hi' : 'ib-mid',
+    desc: `Après chaque traitement, un message de suivi personnalisé réduit les appels au cabinet et apporte à vos patients un service premium que peu de cabinets proposent. Cela vous différencie, augmente la satisfaction et renforce leur confiance dans leur décision de traitement, ce qui améliore naturellement votre taux de conversion des devis. C'est aussi le meilleur contexte pour collecter des avis Google ultra qualifiés, en sollicitant uniquement les patients satisfaits, au bon moment, 24h/24 7j/7.`
+  });
+
+  recos.push({
+    accentClass:'ra-green', numClass:'rn-green',
+    title: "Collecte d'avis Google ciblée",
+    impact: 'Impact long terme', ibc: 'ib-ok',
+    desc: `Un cabinet avec plus d'avis positifs se positionne mieux localement et attire de nouveaux patients. La clé : demander 48 à 72h après une consultation positive, uniquement aux patients satisfaits, jamais de façon systématique.`
+  });
+
+  return recos;
+}
+</script>
+</body>
+</html>
